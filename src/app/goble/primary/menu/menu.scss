@@ -1,0 +1,22 @@
+@use '../../../../style/styles' as *;
+
+.menu {
+    background-color: $dark-grey;
+    height: 50px;
+}
+
+.letter {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.letter-0 {
+    background-color: $green;
+}
+
+.letter-2 {
+    background-color: $orange;
+}

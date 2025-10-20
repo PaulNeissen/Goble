@@ -1,0 +1,49 @@
+@use '@angular/material' as mat;
+
+$my-gold: (
+    100: #fff2cc,
+    400: #f6cb5e,
+    500: #f2c14e,
+    700: #b38729,
+    contrast: (
+        100: black,
+        500: black,
+        700: black,
+    )
+);
+
+$my-gold-accent: (
+    100: #00bcd4,
+    500: #00bcd4,
+    700: #00bcd4,
+    contrast: (
+        100: white,
+        500: white,
+        700: white,
+    )
+);
+
+$my-primary: mat.m2-define-palette($my-gold, 500, 400, 700);
+$my-accent: mat.m2-define-palette($my-gold-accent);
+$my-warn: mat.m2-define-palette(mat.$m2-red-palette); // TODO
+
+$my-theme: mat.m2-define-dark-theme((
+    color: (
+        primary: $my-primary,
+        accent: $my-accent,
+        warn: $my-warn,
+        foreground: (
+            base: white,
+            divider: white,
+            disabled: white,
+            hint: white,
+            text: white,
+        ),
+    ),
+    typography: mat.m2-define-typography-config(),
+    density: 0,
+));
+
+// 🔥 Applique le thème à Angular Material
+@include mat.core();
+@include mat.all-component-themes($my-theme);

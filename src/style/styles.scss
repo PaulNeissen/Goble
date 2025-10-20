@@ -1,0 +1,38 @@
+@use './custom-theme' as *;
+
+$white: #FFF;
+
+$black: #000;
+$almost-black: rgb(14, 14, 15);
+$dark-grey: rgb(29, 29, 32);
+$grey: rgb(58, 58, 60);
+$shadow-grey: rgb(43, 43, 43);
+$light-grey: #979797;
+
+$dark-red: #4a000a;
+$red: #820511;
+$light-red: #c63d3d;
+$accent-red: #f2c14e;
+
+
+$green: rgb(62, 170, 66);
+$orange: rgb(205, 135, 41);
+$red-false: #D91F1F;
+
+
+body {
+    margin: 0;
+    height: 100%;
+    background-color: $almost-black;
+    font-family: Outfit, sans-serif;
+    color: $white;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

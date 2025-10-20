@@ -1,0 +1,132 @@
+@use '../../../../style/styles' as *;
+
+.dle-container {
+    flex-direction: column;
+    row-gap: 2rem;
+}
+
+.game {
+    flex-direction: column;
+    row-gap: 1rem;
+    border-radius: 8px;
+    border: 2px solid $accent-red;
+    padding: 1.2rem;
+    max-width: 300px;
+    text-align: center;
+}
+
+.instructions {
+    color: $light-grey;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-size {
+  width: 36px;
+  height: 36px;
+}
+
+.sprite-container {
+  position: relative;
+}
+
+.pokemon-sprite {
+  position: absolute;
+  z-index: 1;
+}
+
+.shadow {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 45px;
+  height: 45px;
+  z-index: 0;
+}
+
+.sprite-container-grid {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.pokemon-sprite-grid {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  z-index: 1;
+}
+
+.shadow-grid {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 75px;
+  height: 75px;
+  z-index: 0;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 80px);
+  gap: 8px;
+}
+
+.cell-header {
+  text-align: justify;
+  white-space: nowrap;
+  width: fit-content;
+  height: 30px;
+  margin: 0 auto 0;  
+  border-bottom: 2px solid white;
+}
+
+.pokemon-cell {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #222;
+  border-radius: 8px;
+}
+
+.golden {
+  //border: 2px solid $accent-red;
+  box-shadow: inset 0 0 0 2px $accent-red;
+}
+
+.green-cell {
+  background-color: $green;
+}
+
+.orange-cell {
+  background-color: $orange;
+}
+
+.red-cell {
+  background-color: $red-false;
+}
+
+.arrow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../../../../assets/arrow.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+.score {
+  z-index: 1;
+}
+
+.down-arrow::before {
+  transform: rotate(180deg);
+}

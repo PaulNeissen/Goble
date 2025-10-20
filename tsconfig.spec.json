@@ -4,11 +4,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "types": ["vite/client", "vitest/globals"],
   },
   "include": [
-    "src/**/*.ts"
+    "src/test/unit/**/*.ts"
   ]
 }

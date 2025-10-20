@@ -1,0 +1,10 @@
+{
+  "/pvpoke-api": {
+    "target": "https://pvpoke.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/pvpoke-api": ""
+    }
+  }
+}

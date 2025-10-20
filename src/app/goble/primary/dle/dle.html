@@ -1,0 +1,86 @@
+<div class="flex dle-container">
+  <div class="flex game">
+    <span>Guess today's open great league pokémon!</span>
+    <span class="instructions">Type any pokémon to begin.</span>
+  </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Pokémon</mat-label>
+    <input type="text"
+           placeholder="Pokémon name"
+           matInput
+           [formControl]="pokemonCtrl"
+           [matAutocomplete]="auto"
+           data-test="pokemon-input">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" [panelWidth]="'auto'" (optionSelected)="guess($event.option.value)">
+      @for (pokemon of filteredOptions | async; track pokemon) {
+        <mat-option [value]="pokemon">
+          <div class="option-content">
+            <div [style]="getImgStyleFromId(pokemon.dex)"></div>
+            {{ displayFn(pokemon) }}
+          </div>
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+
+  @if (guessedPokemons.length) {
+    <div class="pokemon-grid headers">
+      @for (header of headers; track header) {
+        <div class="cell-header">
+          {{ header }}
+        </div>
+      }
+    </div>
+
+    <div class="pokemon-grid">
+      @for (pokemon of guessedPokemons; track pokemon) {
+        <div class="pokemon-cell golden">
+          <div class="sprite-container-grid">
+            <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon)" data-test="pokemon-image"/>
+            @if (pokemon.shadow) {
+              <img class="shadow-grid" src="assets/shadow.png" data-test="shadow-image">
+            }
+          </div>
+        </div>
+        <div class="pokemon-cell" [ngClass]="getScoreClass(pokemon.score)">
+          <div [ngClass]="{'arrow' : pokemon.score != dailyPokemon.score,'down-arrow' : pokemon.score > dailyPokemon.score}"></div>
+          <span class="score">{{ pokemon.score }}</span>
+        </div>
+        <div class="pokemon-cell" [ngClass]="getTypeClass(pokemon, 0)">
+          <img [src]="getTypeSource(pokemon.types[0])">
+        </div>
+        <div class="pokemon-cell" [ngClass]="getTypeClass(pokemon, 1)">
+          @if (pokemon.types[1] === 'none') {
+            <mat-icon>block</mat-icon>
+          } @else {
+            <img [src]="getTypeSource(pokemon.types[1])">
+          }
+        </div>
+        <div class="pokemon-cell" [ngClass]="getShadowClass(pokemon.shadow)">
+          {{ pokemon.shadow ? 'Yes' : 'No'}}
+        </div>
+        <div class="pokemon-cell" [ngClass]="getFastMoveTypeClass(pokemon)">
+          <img [src]="getTypeSource(pokemon.fastMove.type)">
+        </div>
+        <div class="pokemon-cell" [ngClass]="getChargedMove1TypeClass(pokemon)">
+          <img [src]="getTypeSource(pokemon.chargedMove1.type)">
+        </div>
+        <div class="pokemon-cell" [ngClass]="getChargedMove2TypeClass(pokemon)">
+          <img [src]="getTypeSource(pokemon.chargedMove2.type)">
+        </div>
+        
+        <div class="pokemon-cell" [ngClass]="getMatchupClass(pokemon)">
+          <div class="sprite-container-grid">
+            <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon)"/>
+          </div>
+        </div>
+        <div class="pokemon-cell" [ngClass]="getCounterClass(pokemon)">
+          <div class="sprite-container-grid">
+            <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon)"/>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
