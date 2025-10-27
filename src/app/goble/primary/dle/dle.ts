@@ -27,7 +27,6 @@ export class Dle implements OnInit {
   // TODO : mettre des couleurs orange sur tous les critères
   // TODO : faire l'animation de victoire
   // TODO : faire les niveaux 2 et 3
-  // TODO : mettre sur github
 
   pokemonCtrl = new FormControl<string | Pokemon>('');
   filteredOptions: Observable<Pokemon[]> | undefined;
@@ -37,7 +36,7 @@ export class Dle implements OnInit {
   fastMoves: Move[] = [];
 
   pokemonsAlpha: Signal<Pokemon[]> = computed(() => { 
-    const pokemons = this.pokemonsSignal(); 
+    const pokemons = this.pokemonsSignal();
     return [...pokemons].sort((a, b) => a.name.localeCompare(b.name)); 
   });
 

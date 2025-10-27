@@ -72,12 +72,12 @@
         
         <div class="pokemon-cell" [ngClass]="getMatchupClass(pokemon)">
           <div class="sprite-container-grid">
-            <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon)"/>
+            <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon.matchup)"/>
           </div>
         </div>
         <div class="pokemon-cell" [ngClass]="getCounterClass(pokemon)">
           <div class="sprite-container-grid">
-            <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon)"/>
+            <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon.counter)"/>
           </div>
         </div>
       }

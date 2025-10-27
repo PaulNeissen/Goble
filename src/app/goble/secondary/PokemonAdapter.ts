@@ -4,8 +4,7 @@ import { PokemonPort } from "../domain/PokemonPort";
 import { HttpClient } from "@angular/common/http";
 import { PokemonRankingDto, toPokemons } from "./PokemonRankingDto";
 import { inject, Injectable } from "@angular/core";
-import { GameMasterDto, toPokemonDataAndMove } from "./GameMasterDto";
-import { Move } from "../domain/Move";
+import { GameMasterDto } from "./GameMasterDto";
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +20,12 @@ export class PokemonAdapter implements PokemonPort {
             ranking: this.http.get<PokemonRankingDto[]>(this.URL_PVPOKE),
             gameMaster: this.http.get<GameMasterDto>(this.URL_GAME_MASTER)
         }).pipe(
-            map(({ranking, gameMaster}) => toPokemons(ranking, gameMaster))
+            map(({ranking, gameMaster}) => toPokemons(ranking, gameMaster)),
+            map(pokemons => pokemons.map(pokemon => ({
+                ...pokemon,
+                counter: pokemons.find(p => p.id === pokemon.counter.name) || pokemon.counter,
+                matchup: pokemons.find(p => p.id === pokemon.matchup.name) || pokemon.matchup
+            })))
         );
-    }
-
-    gameMaster(): Observable<{pokemonsData: Pokemon[]; moves: Move[]}> {
-        return this.http.get<GameMasterDto>(this.URL_GAME_MASTER).pipe(map(data => toPokemonDataAndMove(data)));
     }
 }

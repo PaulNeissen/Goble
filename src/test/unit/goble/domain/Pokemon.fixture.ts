@@ -2,8 +2,8 @@ import { Pokemon } from "@/goble/domain/Pokemon";
 import { buildAerialAce, buildBoneClub, buildDig, buildFirePunch, buildFuryCutter, buildHydroCannon, buildIceBean, buildMudSlap, buildQuickAttack, buildRockSlide, buildScorchingSand } from "./Move.fixture";
 
 export const buildDiggersby = (withMove?: boolean): Pokemon => ({
-  id: 'Diggersby',
-  name: 'Diggersby',
+  id: 'diggersby',
+  name: 'diggersby',
   dex: 660,
   types: ['normal', 'ground'],
   shadow: false,
@@ -12,28 +12,28 @@ export const buildDiggersby = (withMove?: boolean): Pokemon => ({
   fastMove: buildQuickAttack(withMove),
   chargedMove1: buildScorchingSand(withMove),
   chargedMove2: buildFirePunch(withMove),
-  counter: buildFeraligator(),
-  matchup: buildMarowak(),
+  counter: {name: 'cradily'} as Pokemon,
+  matchup: {name: 'dedenne'} as Pokemon,
 });
 
 export const buildMarowak = (withMove?: boolean): Pokemon => ({
-  id: 'Marowak (Shadow) (Kanto)',
-  name: 'Marowak',
+  id: 'marowak_shadow',
+  name: 'marowak',
   dex: 105,
   types: ['ground', 'none'],
   shadow: true,
-  region: 'Kanto',
+  region: '',
   score: 90,
   fastMove: buildMudSlap(withMove),
   chargedMove1: buildBoneClub(withMove),
   chargedMove2: buildRockSlide(withMove),
-  counter: buildFeraligator(),
-  matchup: buildDiggersby(),
+  counter: {name: 'azumarill'} as Pokemon,
+  matchup: {name: 'dedenne'} as Pokemon,
 });
 
 export const buildGligar = (): Pokemon => ({
-  id: 'Gligar',
-  name: 'Gligar',
+  id: 'gligar',
+  name: 'gligar',
   dex: 1,
   types: ['ground', 'flying'],
   shadow: false,
@@ -42,13 +42,13 @@ export const buildGligar = (): Pokemon => ({
   fastMove: buildFuryCutter(),
   chargedMove1: buildAerialAce(),
   chargedMove2: buildDig(),
-  counter: buildFeraligator(),
-  matchup: buildDiggersby(),
+  counter: {} as Pokemon,
+  matchup: {} as Pokemon,
 });
 
 export const buildGliscor = (): Pokemon => ({
-  id: 'Gliscor',
-  name: 'Gliscor',
+  id: 'gliscor',
+  name: 'gliscor',
   dex: 1,
   types: ['ground', 'flying'],
   shadow: false,
@@ -57,13 +57,13 @@ export const buildGliscor = (): Pokemon => ({
   fastMove: buildFuryCutter(),
   chargedMove1: buildScorchingSand(true),
   chargedMove2: buildDig(),
-  counter: buildFeraligator(),
-  matchup: buildDiggersby(),
+  counter: {} as Pokemon,
+  matchup: {} as Pokemon,
 });
 
 export const buildFeraligator = (): Pokemon => ({
-  id: 'Feraligator (Shadow)',
-  name: 'Feraligator',
+  id: 'feraligator_shadow',
+  name: 'feraligator',
   dex: 1,
   types: ['water', 'none'],
   shadow: true,
@@ -72,6 +72,6 @@ export const buildFeraligator = (): Pokemon => ({
   fastMove: buildFuryCutter(),
   chargedMove1: buildHydroCannon(),
   chargedMove2: buildIceBean(),
-  counter: buildFeraligator(),
-  matchup: buildDiggersby(),
+  counter: {} as Pokemon,
+  matchup: {} as Pokemon,
 });

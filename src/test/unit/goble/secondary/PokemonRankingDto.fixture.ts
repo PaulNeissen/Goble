@@ -1,7 +1,7 @@
 import { PokemonRankingDto } from "@/goble/secondary/PokemonRankingDto"
 
 export const buildDiggersbyDto = (): PokemonRankingDto => ({
-  speciesName: 'Diggersby',
+  speciesId: 'diggersby',
   score: 100,
   moveset: ['QUICK_ATTACK', 'SCORCHING_SANDS', 'FIRE_PUNCH'],
   counters: [{opponent: "cradily", rating: 371}],
@@ -9,7 +9,7 @@ export const buildDiggersbyDto = (): PokemonRankingDto => ({
 });
 
 export const buildMarowakDto = (): PokemonRankingDto => ({
-  speciesName: 'Marowak (Shadow) (Kanto)',
+  speciesId: 'marowak_shadow',
   score: 90,
   moveset: ['MUD_SLAP', 'BONE_CLUB', 'ROCK_SLIDE'],
   counters: [{opponent: "azumarill", rating: 295}, {opponent: "gastrodon", rating: 377}],

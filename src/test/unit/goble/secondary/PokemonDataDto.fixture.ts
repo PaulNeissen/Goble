@@ -1,13 +1,13 @@
 import { PokemonDataDto } from "@/goble/secondary/PokemonDataDto"
 
 export const buildDiggersbyDataDto = (): PokemonDataDto => ({
-  speciesName: 'Diggersby',
+  speciesId: 'diggersby',
   types: ['normal', 'ground'],
   dex: 660,
 })
 
 export const buildMarowakDataDto = (): PokemonDataDto => ({
-  speciesName: 'Marowak (Shadow) (Kanto)',
+  speciesId: 'marowak_shadow',
   types: ['ground', 'none'],
   dex: 105,
 })

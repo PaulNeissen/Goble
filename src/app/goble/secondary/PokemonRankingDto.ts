@@ -6,7 +6,7 @@ import { MoveDto, toMove } from "./MoveDto";
 import { PokemonDataDto } from "./PokemonDataDto";
 
 export interface PokemonRankingDto {
-  speciesName: string;
+  speciesId: string;
   score: number;
   moveset: string[];
   counters: CounterDto[];
@@ -14,21 +14,20 @@ export interface PokemonRankingDto {
 }
 
 export const toPokemon = (pokemonRankingDto: PokemonRankingDto, pokemonDataDto: PokemonDataDto, moves: MoveDto[]): Pokemon => {
-  let fullname = pokemonRankingDto.speciesName.replace(' (Shadow)', ''); // Enlève le shadow du nom
-  let regionMatch = fullname.match(/\(([^)]+)\)/); // Cherche les substring entre parenthèses
+  let fullname = pokemonRankingDto.speciesId.split('_');
   return {
-    id: pokemonRankingDto.speciesName,
-    name: fullname.replace(/\([^)]*\)/g, "").trim(), // Enlève ce qui se trouve entre parenthèse
+    id: pokemonRankingDto.speciesId,
+    name: fullname[0],
     dex: pokemonDataDto.dex,
     types: pokemonDataDto.types,
-    shadow: pokemonRankingDto.speciesName.includes('(Shadow)'),
-    region: regionMatch ? regionMatch[1] : '', // TODO : il peut y avoir un qualificatif autre que la region
+    shadow: pokemonRankingDto.speciesId.includes('shadow'),
+    region: fullname.length > 1 && fullname[1] !== 'shadow' ? fullname[1] : '',
     score: pokemonRankingDto.score,
     fastMove: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[0])),
     chargedMove1: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[1])),
     chargedMove2: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[2])),
-    counter: pokemonRankingDto.counters[0].opponent,
-    matchup: pokemonRankingDto.matchups[0].opponent,
+    counter: {name: pokemonRankingDto.counters[0].opponent.replace('_shadow', '')} as Pokemon,
+    matchup: {name: pokemonRankingDto.matchups[0].opponent.replace('_shadow', '')} as Pokemon
   };
 }
 
@@ -36,7 +35,7 @@ export const toPokemons = (pokemonRankingDtos: PokemonRankingDto[], gameMasterDt
   let pokemons: Pokemon[] = [];
   const registered = new Set();
   for (let pokemonRankingDto of pokemonRankingDtos) {
-    const pokemonDataDto = gameMasterDto.pokemon.find(p => p.speciesName === pokemonRankingDto.speciesName);
+    const pokemonDataDto = gameMasterDto.pokemon.find(p => p.speciesId === pokemonRankingDto.speciesId);
     if (registered.has(pokemonDataDto!.dex))
       continue;
     let pokemon = toPokemon(pokemonRankingDto, pokemonDataDto!, gameMasterDto.moves);
