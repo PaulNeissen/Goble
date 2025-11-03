@@ -2,6 +2,7 @@ export interface Move {
   id: string;
   name: string;
   type: string;
+  turn: number;
 }
 
 export const emptyMove = (id: string = 'NO_MOVE'): Move => {
@@ -9,5 +10,6 @@ export const emptyMove = (id: string = 'NO_MOVE'): Move => {
     id: id,
     name: '',
     type: '',
+    turn: 0,
   };
 }

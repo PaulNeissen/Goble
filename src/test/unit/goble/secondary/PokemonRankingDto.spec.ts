@@ -7,7 +7,7 @@ import { buildGameMasterDto } from './GameMasterDto.fixture';
 
 describe('PokemonRankingDto', () => {
   it('should map to domain', () => {
-    expect(toPokemon(buildDiggersbyDto(), buildDiggersbyDataDto(), buildMovesDto())).toEqual(buildDiggersby(true));
+    expect(toPokemon(buildDiggersbyDto(), 0, buildDiggersbyDataDto(), buildMovesDto())).toEqual(buildDiggersby(true));
   });
 
   it('should map a list to domain with one Pokémon', () => {

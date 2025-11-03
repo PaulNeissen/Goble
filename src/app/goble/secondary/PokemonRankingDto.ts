@@ -13,7 +13,7 @@ export interface PokemonRankingDto {
   matchups: MatchupDto[];
 }
 
-export const toPokemon = (pokemonRankingDto: PokemonRankingDto, pokemonDataDto: PokemonDataDto, moves: MoveDto[]): Pokemon => {
+export const toPokemon = (pokemonRankingDto: PokemonRankingDto, rank: number, pokemonDataDto: PokemonDataDto, moves: MoveDto[]): Pokemon => {
   let fullname = pokemonRankingDto.speciesId.split('_');
   return {
     id: pokemonRankingDto.speciesId,
@@ -23,6 +23,7 @@ export const toPokemon = (pokemonRankingDto: PokemonRankingDto, pokemonDataDto: 
     shadow: pokemonRankingDto.speciesId.includes('shadow'),
     region: fullname.length > 1 && fullname[1] !== 'shadow' ? fullname[1] : '',
     score: pokemonRankingDto.score,
+    rank: rank + 1,
     fastMove: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[0])),
     chargedMove1: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[1])),
     chargedMove2: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[2])),
@@ -34,13 +35,13 @@ export const toPokemon = (pokemonRankingDto: PokemonRankingDto, pokemonDataDto: 
 export const toPokemons = (pokemonRankingDtos: PokemonRankingDto[], gameMasterDto: GameMasterDto): Pokemon[] => {
   let pokemons: Pokemon[] = [];
   const registered = new Set();
-  for (let pokemonRankingDto of pokemonRankingDtos) {
+  pokemonRankingDtos.forEach((pokemonRankingDto, index) => {
     const pokemonDataDto = gameMasterDto.pokemon.find(p => p.speciesId === pokemonRankingDto.speciesId);
     if (registered.has(pokemonDataDto!.dex))
-      continue;
-    let pokemon = toPokemon(pokemonRankingDto, pokemonDataDto!, gameMasterDto.moves);
+      return;
+    let pokemon = toPokemon(pokemonRankingDto, index, pokemonDataDto!, gameMasterDto.moves);
     pokemons.push(pokemon);
     registered.add(pokemon.dex);
-  }
+  })
   return pokemons;
 }

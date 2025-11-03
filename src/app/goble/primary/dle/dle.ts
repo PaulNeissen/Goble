@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, OnInit, Signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { areSameChargedMoveType, isSameFastMoveType, Pokemon } from '../../domain/Pokemon';
+import { areSameChargedMoveType, isSameFastMoveType, Pokemon, shareOneType } from '../../domain/Pokemon';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -27,10 +27,11 @@ export class Dle implements OnInit {
   // TODO : mettre des couleurs orange sur tous les critères
   // TODO : faire l'animation de victoire
   // TODO : faire les niveaux 2 et 3
+  // Critères ajoutable : le stade d'évolution grace à l'attribut family
 
   pokemonCtrl = new FormControl<string | Pokemon>('');
   filteredOptions: Observable<Pokemon[]> | undefined;
-  headers: string[] = ['Pokémon', 'Score', 'Type 1', 'Type 2', 'Shadow', 'Fast Move', 'Charged 1', 'Charged 2', 'Key win', 'Key loss'];
+  headers: string[] = ['Pokémon', 'Rank', 'Type 1', 'Type 2', 'Shadow', 'Fast Move', 'Turn', 'Charged 1', 'Charged 2', 'Key win', 'Key loss'];
   guessedPokemons: Pokemon[] = [];
   dailyPokemon: any;
   fastMoves: Move[] = [];
@@ -117,14 +118,20 @@ export class Dle implements OnInit {
     return Math.floor(rand * 20); // nombre entier entre 0 et 20 exclu, TODO : valeur max à définir (300)
   }
 
-  getScoreClass(score: number): string {
-    if (score === this.dailyPokemon.score) return 'green-cell';
-    else if (Math.abs(score - this.dailyPokemon.score) < 0.5) return 'orange-cell';
+  getRankClass(rank: number): string {
+    if (rank === this.dailyPokemon.rank) return 'green-cell';
+    else if (Math.abs(rank - this.dailyPokemon.rank) < 5) return 'orange-cell';
     else return 'red-cell';
   }
 
   getFastMoveTypeClass(pokemon: Pokemon): string { 
     return isSameFastMoveType(pokemon, this.dailyPokemon) ? 'green-cell' : 'red-cell';
+  }
+
+  getFastMoveTurnClass(pokemon: Pokemon): string {
+    if (pokemon.fastMove.turn === this.dailyPokemon.fastMove.turn) return 'green-cell';
+    else if (Math.abs(pokemon.fastMove.turn - this.dailyPokemon.fastMove.turn) <= 1) return 'orange-cell';
+    else return 'red-cell';
   }
   
   getChargedMove1TypeClass(pokemon: Pokemon): string {
@@ -157,10 +164,20 @@ export class Dle implements OnInit {
   }
 
   getMatchupClass(pokemon: Pokemon): string {
-    return pokemon.matchup == this.dailyPokemon.matchup ? 'green-cell' : 'red-cell';
+    if (pokemon.matchup.name === this.dailyPokemon.matchup.name) {
+      return 'green-cell';
+    } else if (shareOneType(pokemon.matchup, this.dailyPokemon.matchup)) {
+      return 'orange-cell';
+    }
+    return 'red-cell';
   }
 
   getCounterClass(pokemon: Pokemon): string {
-    return pokemon.counter == this.dailyPokemon.counter ? 'green-cell' : 'red-cell';
+    if (pokemon.counter.name === this.dailyPokemon.counter.name) {
+      return 'green-cell';
+    } else if (shareOneType(pokemon.counter, this.dailyPokemon.counter)) {
+      return 'orange-cell';
+    }
+    return 'red-cell';
   }
 }

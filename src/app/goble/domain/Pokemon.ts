@@ -8,6 +8,7 @@ export interface Pokemon {
   shadow: boolean;
   region: string;
   score: number;
+  rank: number;
   fastMove: Move;
   chargedMove1: Move;
   chargedMove2: Move;
@@ -19,6 +20,12 @@ export const isSameFastMoveType = (pokemonToCompare: Pokemon, pokemon: Pokemon):
   return pokemonToCompare.fastMove.type == pokemon.fastMove.type;
 }
 
+// [👻, 🔥], [👻, ❄️] => [✅,❌]
+// [🔥, 👻], [👻, ❄️] => [❌,✅]
+// [👻, ❄️], [👻, ❄️] => [✅,✅]
+// [❄️, 👻], [👻, ❄️] => [✅,✅]
+// [👻, 👻], [👻, ❄️] => [✅,❌]
+// [🔥, 💧], [👻, ❄️] => [❌,❌]
 export const areSameChargedMoveType = (pokemonToCompare: Pokemon, pokemon: Pokemon): boolean[] => {
   const movesToCompare: [string, string] = [pokemonToCompare.chargedMove1.type, pokemonToCompare.chargedMove2.type];
   const moves: [string, string] = [pokemon.chargedMove1.type, pokemon.chargedMove2.type];
@@ -38,4 +45,12 @@ export const areSameChargedMoveType = (pokemonToCompare: Pokemon, pokemon: Pokem
   }
 
   return results;
+}
+
+export const shareOneType = (pokemonToCompare: Pokemon, pokemon: Pokemon): boolean => {
+  if (pokemonToCompare.types == undefined || pokemon.types == undefined)
+    return false;
+  return pokemonToCompare.types.some(typeToCompare =>
+    pokemon.types.some(type => typeToCompare === type && type !== "none")
+  );
 }

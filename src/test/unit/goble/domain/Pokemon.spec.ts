@@ -1,4 +1,4 @@
-import { areSameChargedMoveType, isSameFastMoveType, Pokemon } from "@/goble/domain/Pokemon";
+import { areSameChargedMoveType, isSameFastMoveType, Pokemon, shareOneType } from "@/goble/domain/Pokemon";
 import { buildDiggersby, buildGliscor } from "./Pokemon.fixture";
 
 describe('Pokemon', () => {
@@ -44,5 +44,37 @@ describe('Pokemon', () => {
     { chargedMove1: { type: "ghost" }, chargedMove2: { type: "ghost" } } as Pokemon
     ))
     .toEqual([false, true]);
+  });
+
+  it('should check if pokemons share atleast one type', () => {
+    expect(shareOneType(
+    { types: ["fire", "water"] } as Pokemon,
+    { types: ["fire", "ground"] } as Pokemon
+    ))
+    .toEqual(true);
+  });
+
+  it('should check if pokemons share atleast one type', () => {
+    expect(shareOneType(
+    { types: ["fire", "water"] } as Pokemon,
+    { types: ["ground", "fire"] } as Pokemon
+    ))
+    .toEqual(true);
+  });
+
+  it('should check if pokemons share atleast one type', () => {
+    expect(shareOneType(
+    { types: ["fire", "water"] } as Pokemon,
+    { types: ["ice", "ground"] } as Pokemon
+    ))
+    .toEqual(false);
+  });
+
+  it('should check if pokemons share atleast one type', () => {
+    expect(shareOneType(
+    { types: ["fire", "none"] } as Pokemon,
+    { types: ["ice", "none"] } as Pokemon
+    ))
+    .toEqual(false);
   });
 });

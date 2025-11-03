@@ -43,13 +43,16 @@
             }
           </div>
         </div>
-        <div class="pokemon-cell" [ngClass]="getScoreClass(pokemon.score)">
-          <div [ngClass]="{'arrow' : pokemon.score != dailyPokemon.score,'down-arrow' : pokemon.score > dailyPokemon.score}"></div>
-          <span class="score">{{ pokemon.score }}</span>
+
+        <div class="pokemon-cell" [ngClass]="getRankClass(pokemon.rank)">
+          <div [ngClass]="{'arrow' : pokemon.rank != dailyPokemon.rank,'down-arrow' : pokemon.rank < dailyPokemon.rank}"></div>
+          <span class="score">{{ pokemon.rank }}</span>
         </div>
+
         <div class="pokemon-cell" [ngClass]="getTypeClass(pokemon, 0)">
           <img [src]="getTypeSource(pokemon.types[0])">
         </div>
+
         <div class="pokemon-cell" [ngClass]="getTypeClass(pokemon, 1)">
           @if (pokemon.types[1] === 'none') {
             <mat-icon>block</mat-icon>
@@ -57,15 +60,24 @@
             <img [src]="getTypeSource(pokemon.types[1])">
           }
         </div>
+
         <div class="pokemon-cell" [ngClass]="getShadowClass(pokemon.shadow)">
           {{ pokemon.shadow ? 'Yes' : 'No'}}
         </div>
+
         <div class="pokemon-cell" [ngClass]="getFastMoveTypeClass(pokemon)">
           <img [src]="getTypeSource(pokemon.fastMove.type)">
         </div>
+        
+        <div class="pokemon-cell" [ngClass]="getFastMoveTurnClass(pokemon)">
+          <div [ngClass]="{'arrow' : pokemon.fastMove.turn != dailyPokemon.fastMove.turn,'down-arrow' : pokemon.fastMove.turn > dailyPokemon.fastMove.turn}"></div>
+          <span class="score">{{ pokemon.fastMove.turn }}</span>
+        </div>
+
         <div class="pokemon-cell" [ngClass]="getChargedMove1TypeClass(pokemon)">
           <img [src]="getTypeSource(pokemon.chargedMove1.type)">
         </div>
+
         <div class="pokemon-cell" [ngClass]="getChargedMove2TypeClass(pokemon)">
           <img [src]="getTypeSource(pokemon.chargedMove2.type)">
         </div>
@@ -75,6 +87,7 @@
             <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon.matchup)"/>
           </div>
         </div>
+
         <div class="pokemon-cell" [ngClass]="getCounterClass(pokemon)">
           <div class="sprite-container-grid">
             <img class="pokemon-sprite-grid" [src]="getPokemonIconUrl(pokemon.counter)"/>

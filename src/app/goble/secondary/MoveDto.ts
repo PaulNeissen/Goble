@@ -4,6 +4,7 @@ export interface MoveDto {
   moveId: string;
   name: string;
   type: string;
+  turns: number;
 }
 
 export const toMove = (moveApi: MoveDto | undefined): Move => {
@@ -11,7 +12,8 @@ export const toMove = (moveApi: MoveDto | undefined): Move => {
     return {
       id: moveApi.moveId,
       name: moveApi.name,
-      type: moveApi.type
+      type: moveApi.type,
+      turn: moveApi.turns,
     };
   } else {
     return emptyMove();

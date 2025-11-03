@@ -23,8 +23,8 @@ export class PokemonAdapter implements PokemonPort {
             map(({ranking, gameMaster}) => toPokemons(ranking, gameMaster)),
             map(pokemons => pokemons.map(pokemon => ({
                 ...pokemon,
-                counter: pokemons.find(p => p.id === pokemon.counter.name) || pokemon.counter,
-                matchup: pokemons.find(p => p.id === pokemon.matchup.name) || pokemon.matchup
+                counter: pokemons.find(p => p.id.includes(pokemon.counter.name)) || pokemon.counter,
+                matchup: pokemons.find(p => p.id.includes(pokemon.matchup.name)) || pokemon.matchup
             })))
         );
     }
