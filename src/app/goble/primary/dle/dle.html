@@ -4,6 +4,7 @@
     <span class="instructions">Type any pokémon to begin.</span>
   </div>
 
+  @if(pokemonsAlpha().length) {
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Pokémon</mat-label>
     <input type="text"
@@ -16,13 +17,14 @@
       @for (pokemon of filteredOptions | async; track pokemon) {
         <mat-option [value]="pokemon">
           <div class="option-content">
-            <div [style]="getImgStyleFromId(pokemon.dex)"></div>
+            <div [style]="getImgStyleFromId(pokemon)"></div>
             {{ displayFn(pokemon) }}
           </div>
         </mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>
+}
 
   @if (guessedPokemons.length) {
     <div class="pokemon-grid headers">

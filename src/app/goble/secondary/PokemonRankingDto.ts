@@ -35,13 +35,18 @@ export const toPokemon = (pokemonRankingDto: PokemonRankingDto, rank: number, po
 export const toPokemons = (pokemonRankingDtos: PokemonRankingDto[], gameMasterDto: GameMasterDto): Pokemon[] => {
   let pokemons: Pokemon[] = [];
   const registered = new Set();
-  pokemonRankingDtos.forEach((pokemonRankingDto, index) => {
+
+  // On garde que les 3000 premiers résultats
+  pokemonRankingDtos.slice(0, 3000).forEach((pokemonRankingDto, index) => { 
     const pokemonDataDto = gameMasterDto.pokemon.find(p => p.speciesId === pokemonRankingDto.speciesId);
-    if (registered.has(pokemonDataDto!.dex))
+    const pokemonId = pokemonDataDto!.speciesId
+      .replace('_shadow','') // On enlève le shadow pour garder que le mieux classé entre le standrad et le shadow
+      .replace(/_[a-z]$/i, ''); // On enlève les pokémons du classement qui ont une deuxième occurence avec un move différent
+    if (registered.has(pokemonId))
       return;
     let pokemon = toPokemon(pokemonRankingDto, index, pokemonDataDto!, gameMasterDto.moves);
     pokemons.push(pokemon);
-    registered.add(pokemon.dex);
+    registered.add(pokemonId);
   })
   return pokemons;
 }

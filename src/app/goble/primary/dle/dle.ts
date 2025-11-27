@@ -11,6 +11,7 @@ import { POKEMON_PORT } from '@/injection.token';
 import { Move } from '@/goble/domain/Move';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
+import { SPECIAL_POKEMON_COORDINATES } from './pokemon-icon-coordinates';
 
 @Component({
   selector: 'app-dle',
@@ -47,13 +48,12 @@ export class Dle implements OnInit {
     console.log('Pokémons :', this.pokemonsSignal());
     console.log('Pokémons alpha :', this.pokemonsAlpha());
 
-    //this.dailyPokemon = this.pokemonsRanking()[this.dailyPokemonIndex()];
-    this.dailyPokemon = this.pokemonsSignal()[10];
+    this.dailyPokemon = this.pokemonsSignal()[10]; //this.dailyPokemonIndex()
     console.log(this.dailyPokemon);
 
     let same = [];
-    for (let i = 0; i < 300; i++) {
-      for (let j = 0; j < 300; j++) {
+    for (let i = 0; i < this.pokemonsAlpha().length; i++) {
+      for (let j = 0; j < this.pokemonsAlpha().length; j++) {
         const p1 = this.pokemonsAlpha()[i];
         const p2 = this.pokemonsAlpha()[j];
         if (i != j 
@@ -67,7 +67,7 @@ export class Dle implements OnInit {
         }
       }
     }
-    console.log('Number of similar pokémon', same);
+    // console.log('Number of similar pokémon', same);
   });
 
   ngOnInit(): void {
@@ -81,7 +81,11 @@ export class Dle implements OnInit {
   }
 
   displayFn(pokemon: Pokemon): string {
-    return [pokemon.name, pokemon.region].filter(str => str).join(' ');
+    if (!pokemon || !pokemon.name) {
+      return '';
+    }
+    const capitalized = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+    return pokemon.region ? `${capitalized} (${pokemon.region})` : capitalized;
   }
   
   private _filter(name: string): Pokemon[] {
@@ -91,7 +95,11 @@ export class Dle implements OnInit {
   }
 
   getPokemonIconUrl(pokemon: Pokemon): string {
-    const formattedName = [pokemon.name, pokemon.region].filter(str => str).join('-').toLowerCase();
+    let formattedName = [pokemon.name, pokemon.region].filter(str => str).join('-').toLowerCase();
+
+    if (pokemon.region === 'combat') // Tauros
+      formattedName = 'tauros-paldean-combat';
+
     return `https://img.pokemondb.net/sprites/home/normal/${formattedName}.png`;
   }
 
@@ -154,9 +162,35 @@ export class Dle implements OnInit {
     return pokemon.types[index] == this.dailyPokemon.types[index] ? 'green-cell' : 'red-cell';
   }
 
-  getImgStyleFromId(dex: number) {
-    const x = Math.floor(dex / 12);
-    const y = dex % 12;
+  getImgStyleFromId(pokemon: Pokemon, x?: number, y?: number) {
+    if (pokemon.region) {
+      // Tauros
+      if (pokemon.region === 'combat') {
+        x = 104;
+        y = 8;
+      } else if (pokemon.region === 'blaze') {
+        x = 104;
+        y = 9;
+      } else if (pokemon.region === 'aqua') {
+        x = 104;
+        y = 10;
+      }
+
+      // Zygarde
+      if (pokemon.region === '10') {
+        x = 97,
+        y = 6;
+      }
+
+      const specialPoke = SPECIAL_POKEMON_COORDINATES.find(p => p.dex === pokemon.dex);
+      if (specialPoke) {
+        x = specialPoke.x;
+        y = specialPoke.y;
+      }
+    }
+
+    x = x ?? Math.floor(pokemon.dex / 12);
+    y = y ?? pokemon.dex % 12;
     const width =  x * 30;
     const height = y * 40;
     return "background:transparent url(assets/pokemonicons-sheet.png) no-repeat scroll -" 
