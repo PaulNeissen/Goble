@@ -12,7 +12,7 @@ import { Move } from '@/goble/domain/Move';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { SPECIAL_POKEMON_COORDINATES } from './pokemon-icon-coordinates';
-import confetti from 'canvas-confetti';
+import { ConfettiService } from './confetti.service';
 
 @Component({
   selector: 'app-dle',
@@ -128,52 +128,7 @@ export class Dle implements OnInit {
 
   celebrateVictory() {
     this.pokemonCtrl.disable();
-    this.fireConfetti();
-    setTimeout(() => this.fireConfetti(), 300);
-    setTimeout(() => this.fireConfetti(), 600);
-  }
-
-  private fireConfetti() {
-    const count = 300;
-    const defaults = {
-      origin: { y: 0.7 }
-    };
-
-    function fire(particleRatio: number, opts: any) {
-      confetti({
-        ...defaults,
-        ...opts,
-        particleCount: Math.floor(count * particleRatio)
-      });
-    }
-
-    // Mélange de confettis colorés
-    fire(0.25, {
-      spread: 26,
-      startVelocity: 55,
-    });
-
-    fire(0.2, {
-      spread: 60,
-    });
-
-    fire(0.35, {
-      spread: 100,
-      decay: 0.91,
-      scalar: 0.8
-    });
-
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 25,
-      decay: 0.92,
-      scalar: 1.2
-    });
-
-    fire(0.1, {
-      spread: 120,
-      startVelocity: 45,
-    });
+    ConfettiService.celebrate();
   }
 
   dailyPokemonIndex(): number {
