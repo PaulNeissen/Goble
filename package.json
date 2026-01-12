@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "vitest",
-    "cy": "cypress open --e2e --browser chrome"
+    "cy": "cypress open --e2e --browser chrome",
+    "cy:run": "cypress run --e2e"
   },
   "prettier": {
     "overrides": [
@@ -30,6 +31,7 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "arch-unit-ts": "^1.0.9",
+    "canvas-confetti": "^1.9.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -39,6 +41,7 @@
     "@angular/compiler-cli": "^20.1.0",
     "@cypress/webpack-dev-server": "^4.1.1",
     "@testing-library/angular": "^17.4.0",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^24.2.0",
     "@vitest/ui": "^3.2.4",
     "cypress": "^14.5.3",

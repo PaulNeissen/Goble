@@ -12,6 +12,7 @@ import { Move } from '@/goble/domain/Move';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { SPECIAL_POKEMON_COORDINATES } from './pokemon-icon-coordinates';
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-dle',
@@ -24,11 +25,13 @@ export class Dle implements OnInit {
   private pokemonAdapter = inject(POKEMON_PORT);
   private pokemonsSignal = toSignal(this.pokemonAdapter.list(), { initialValue: []});
 
-  // TODO : utiliser le rank plutot que le score
-  // TODO : mettre des couleurs orange sur tous les critères
-  // TODO : faire l'animation de victoire
+
   // TODO : faire les niveaux 2 et 3
+  // Informations sur le jeu et les critères
+  // license
+  // Autres cups
   // Critères ajoutable : le stade d'évolution grace à l'attribut family
+  // TODO : améliorer l'animation de victoire et le message de félicitations
 
   pokemonCtrl = new FormControl<string | Pokemon>('');
   filteredOptions: Observable<Pokemon[]> | undefined;
@@ -36,6 +39,7 @@ export class Dle implements OnInit {
   guessedPokemons: Pokemon[] = [];
   dailyPokemon: any;
   fastMoves: Move[] = [];
+  hasWon: boolean = false;
 
   pokemonsAlpha: Signal<Pokemon[]> = computed(() => { 
     const pokemons = this.pokemonsSignal();
@@ -104,12 +108,72 @@ export class Dle implements OnInit {
   }
 
   guess(pokemon: Pokemon) {
+    if (this.hasWon) {
+      return; // Ne pas permettre de deviner après la victoire
+    }
+    
     if (!this.guessedPokemons.find(p => p.name === pokemon.name && p.region === pokemon.region)) {
       this.guessedPokemons.push(pokemon);
+      
+      // Vérifier si c'est le bon Pokémon
+      if (pokemon.name === this.dailyPokemon.name && pokemon.region === this.dailyPokemon.region) {
+        this.hasWon = true;
+        this.celebrateVictory();
+      }
     } else {
       console.error('You already guessed this pokémon'); // TODO : Message d'erreur sur l'interface
     }
     this.pokemonCtrl.setValue('');
+  }
+
+  celebrateVictory() {
+    this.pokemonCtrl.disable();
+    this.fireConfetti();
+    setTimeout(() => this.fireConfetti(), 300);
+    setTimeout(() => this.fireConfetti(), 600);
+  }
+
+  private fireConfetti() {
+    const count = 300;
+    const defaults = {
+      origin: { y: 0.7 }
+    };
+
+    function fire(particleRatio: number, opts: any) {
+      confetti({
+        ...defaults,
+        ...opts,
+        particleCount: Math.floor(count * particleRatio)
+      });
+    }
+
+    // Mélange de confettis colorés
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+
+    fire(0.2, {
+      spread: 60,
+    });
+
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
+
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
   }
 
   dailyPokemonIndex(): number {

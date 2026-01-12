@@ -1,10 +1,17 @@
 <div class="flex dle-container">
   <div class="flex game">
-    <span>Guess today's open great league pokémon!</span>
-    <span class="instructions">Type any pokémon to begin.</span>
+    @if (hasWon) {
+      <div class="victory-message">
+        <h2>🎉 Congratulations ! 🎉</h2>
+        <p>You have guessed today's pokémon in {{ guessedPokemons.length }} guess{{ guessedPokemons.length > 1 ? 'es' : '' }} !</p>
+      </div>
+    } @else {
+      <span>Guess today's open great league pokémon!</span>
+      <span class="instructions">Type any pokémon to begin.</span>
+    }
   </div>
 
-  @if(pokemonsAlpha().length) {
+  @if(pokemonsAlpha().length && !hasWon) {
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Pokémon</mat-label>
     <input type="text"
