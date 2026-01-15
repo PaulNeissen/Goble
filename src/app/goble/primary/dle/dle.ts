@@ -12,7 +12,7 @@ import { Move } from '@/goble/domain/Move';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { SPECIAL_POKEMON_COORDINATES } from './pokemon-icon-coordinates';
-import { ConfettiService } from './confetti.service';
+import { ConfettiService } from '../confetti.service';
 
 @Component({
   selector: 'app-dle',
@@ -31,7 +31,7 @@ export class Dle implements OnInit {
   // license
   // Autres cups
   // Critères ajoutable : le stade d'évolution grace à l'attribut family
-  // TODO : améliorer l'animation de victoire et le message de félicitations
+  // TODO : favicon
 
   pokemonCtrl = new FormControl<string | Pokemon>('');
   filteredOptions: Observable<Pokemon[]> | undefined;
