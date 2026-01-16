@@ -61,23 +61,36 @@
     }
 }
 
-@keyframes faviconBell {
+@keyframes faviconBell1 {
     0% {
         transform: rotate(0deg);
     }
+    100% {
+        transform: rotate(45deg);
+    }
+}
+
+@keyframes faviconBell2 {
+    0% {
+        transform: rotate(45deg);
+    }
     50% {
-        transform: rotate(90deg);
+        transform: rotate(0deg);
     }
     100% {
-        transform: rotate(0);
+        transform: rotate(-45deg);
     }
 }
 
 .victory-favicon {
+    height: 32px;
+    width: 32px;
     display: inline-block;
     vertical-align: middle;
     transform-origin: center;
-    animation: faviconBell 1.5s ease-in-out 3;
+    animation: 
+        faviconBell1 1s ease-out 1,
+        faviconBell2 2s ease-in-out 1;
 }
 
 .instructions {
@@ -137,7 +150,7 @@
 
 .pokemon-grid {
   display: grid;
-  grid-template-columns: repeat(11, 80px);
+  grid-template-columns: repeat(12, 80px);
   gap: 8px;
 }
 

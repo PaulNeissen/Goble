@@ -13,8 +13,34 @@ export interface PokemonRankingDto {
   matchups: MatchupDto[];
 }
 
-export const toPokemon = (pokemonRankingDto: PokemonRankingDto, rank: number, pokemonDataDto: PokemonDataDto, moves: MoveDto[]): Pokemon => {
+const evolution = (pokemonDataDto: PokemonDataDto, gameMasterDto: GameMasterDto) => {
+  const hasParent = pokemonDataDto.family?.parent !== undefined;
+  const hasEvolutions = pokemonDataDto.family?.evolutions !== undefined && pokemonDataDto.family.evolutions.length > 0;
+  
+  if (!hasParent && hasEvolutions) {
+    return 1; // Première évolution
+  } else if (hasParent && hasEvolutions) {
+    return 2; // Évolution intermédiaire
+  } else if (hasParent && !hasEvolutions) {
+    // Compter le nombre de parents pour déterminer si c'est 2 ou 3
+    let parentCount = 0;
+    let currentParent = pokemonDataDto.family?.parent;
+    
+    while (currentParent) {
+      parentCount++;
+      const parentData = gameMasterDto.pokemon.find(p => p.speciesId === currentParent);
+      currentParent = parentData?.family?.parent;
+    }
+    
+    return parentCount === 1 ? 2 : 3; // 2 si 1 parent, 3 si 2 parents ou plus
+  }
+  
+  return 1; // Par défaut
+}
+
+export const toPokemon = (pokemonRankingDto: PokemonRankingDto, rank: number, pokemonDataDto: PokemonDataDto, moves: MoveDto[], gameMasterDto: GameMasterDto): Pokemon => {
   let fullname = pokemonRankingDto.speciesId.split('_');
+  
   return {
     id: pokemonRankingDto.speciesId,
     name: fullname[0],
@@ -28,7 +54,8 @@ export const toPokemon = (pokemonRankingDto: PokemonRankingDto, rank: number, po
     chargedMove1: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[1])),
     chargedMove2: toMove(moves.find(m => m.moveId === pokemonRankingDto.moveset[2])),
     counter: {name: pokemonRankingDto.counters[0].opponent.replace('_shadow', '')} as Pokemon,
-    matchup: {name: pokemonRankingDto.matchups[0].opponent.replace('_shadow', '')} as Pokemon
+    matchup: {name: pokemonRankingDto.matchups[0].opponent.replace('_shadow', '')} as Pokemon,
+    evolution: evolution(pokemonDataDto, gameMasterDto)
   };
 }
 
@@ -44,7 +71,7 @@ export const toPokemons = (pokemonRankingDtos: PokemonRankingDto[], gameMasterDt
       .replace(/_[a-z]$/i, ''); // On enlève les pokémons du classement qui ont une deuxième occurence avec un move différent
     if (registered.has(pokemonId))
       return;
-    let pokemon = toPokemon(pokemonRankingDto, index, pokemonDataDto!, gameMasterDto.moves);
+    let pokemon = toPokemon(pokemonRankingDto, index, pokemonDataDto!, gameMasterDto.moves, gameMasterDto);
     pokemons.push(pokemon);
     registered.add(pokemonId);
   })

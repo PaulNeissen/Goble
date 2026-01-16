@@ -14,6 +14,7 @@ export interface Pokemon {
   chargedMove2: Move;
   counter: Pokemon;
   matchup: Pokemon;
+  evolution: number;
 }
 
 export const isSameFastMoveType = (pokemonToCompare: Pokemon, pokemon: Pokemon): boolean => {

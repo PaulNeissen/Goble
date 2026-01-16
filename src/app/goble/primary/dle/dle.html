@@ -74,6 +74,10 @@
           }
         </div>
 
+        <div class="pokemon-cell" [ngClass]="getEvolutionClass(pokemon.evolution)">
+          {{ pokemon.evolution }}
+        </div>
+        
         <div class="pokemon-cell" [ngClass]="getShadowClass(pokemon.shadow)">
           {{ pokemon.shadow ? 'Yes' : 'No'}}
         </div>

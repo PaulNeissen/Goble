@@ -35,7 +35,7 @@ export class Dle implements OnInit {
 
   pokemonCtrl = new FormControl<string | Pokemon>('');
   filteredOptions: Observable<Pokemon[]> | undefined;
-  headers: string[] = ['Pokémon', 'Rank', 'Type 1', 'Type 2', 'Shadow', 'Fast Move', 'Turn', 'Charged 1', 'Charged 2', 'Key win', 'Key loss'];
+  headers: string[] = ['Pokémon', 'Rank', 'Type 1', 'Type 2', 'Evo stage', 'Shadow', 'Fast Move', 'Fast turn', 'Charged 1', 'Charged 2', 'Key win', 'Key loss'];
   guessedPokemons: Pokemon[] = [];
   dailyPokemon: any;
   fastMoves: Move[] = [];
@@ -232,5 +232,9 @@ export class Dle implements OnInit {
       return 'orange-cell';
     }
     return 'red-cell';
+  }
+
+  getEvolutionClass(evolution: number): string {
+    return evolution === this.dailyPokemon.evolution ? 'green-cell' : 'red-cell';
   }
 }

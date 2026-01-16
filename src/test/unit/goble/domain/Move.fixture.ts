@@ -28,7 +28,7 @@ export const buildMudSlap = (isFull? : boolean): Move => ({
   turn: 3,
 });
 
-export const buildScorchingSand = (isFull? : boolean): Move => ({
+export const buildScorchingSands = (isFull? : boolean): Move => ({
   id: 'SCORCHING_SANDS',
   name: isFull ? 'Scorching Sands' : '',
   type: isFull ? 'ground' : '',

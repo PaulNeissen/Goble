@@ -1,5 +1,5 @@
 import { Pokemon } from "@/goble/domain/Pokemon";
-import { buildAerialAce, buildBoneClub, buildDig, buildFirePunch, buildFuryCutter, buildHydroCannon, buildIceBean, buildMudSlap, buildQuickAttack, buildRockSlide, buildScorchingSand } from "./Move.fixture";
+import { buildAerialAce, buildBoneClub, buildDig, buildFirePunch, buildFuryCutter, buildHydroCannon, buildIceBean, buildMudSlap, buildQuickAttack, buildRockSlide, buildScorchingSands } from "./Move.fixture";
 
 export const buildDiggersby = (withMove?: boolean): Pokemon => ({
   id: 'diggersby',
@@ -11,10 +11,11 @@ export const buildDiggersby = (withMove?: boolean): Pokemon => ({
   score: 100,
   rank: 1,
   fastMove: buildQuickAttack(withMove),
-  chargedMove1: buildScorchingSand(withMove),
+  chargedMove1: buildScorchingSands(withMove),
   chargedMove2: buildFirePunch(withMove),
   counter: {name: 'cradily'} as Pokemon,
   matchup: {name: 'dedenne'} as Pokemon,
+  evolution: 2,
 });
 
 export const buildMarowak = (withMove?: boolean): Pokemon => ({
@@ -31,6 +32,7 @@ export const buildMarowak = (withMove?: boolean): Pokemon => ({
   chargedMove2: buildRockSlide(withMove),
   counter: {name: 'azumarill'} as Pokemon,
   matchup: {name: 'dedenne'} as Pokemon,
+  evolution: 1,
 });
 
 export const buildGligar = (): Pokemon => ({
@@ -47,6 +49,7 @@ export const buildGligar = (): Pokemon => ({
   chargedMove2: buildDig(),
   counter: {} as Pokemon,
   matchup: {} as Pokemon,
+  evolution: 1,
 });
 
 export const buildGliscor = (): Pokemon => ({
@@ -59,10 +62,11 @@ export const buildGliscor = (): Pokemon => ({
   score: 85,
   rank: 94,
   fastMove: buildFuryCutter(),
-  chargedMove1: buildScorchingSand(true),
+  chargedMove1: buildScorchingSands(true),
   chargedMove2: buildDig(),
   counter: {} as Pokemon,
   matchup: {} as Pokemon,
+  evolution: 2,
 });
 
 export const buildFeraligator = (): Pokemon => ({
@@ -79,4 +83,5 @@ export const buildFeraligator = (): Pokemon => ({
   chargedMove2: buildIceBean(),
   counter: {} as Pokemon,
   matchup: {} as Pokemon,
+  evolution: 3,
 });
